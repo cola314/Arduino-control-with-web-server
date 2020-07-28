@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {margin : 0; padding : 0; }
+        #content {
+            width : 300px;
+            height : 400px;
+        }
+        #content > div {
+            height : 25%;
+            width : 100%;
+            background-color: aquamarine;
+        }
+        button {
+            float : left; width : 33.33%; height : 100%;
+        }
+    </style>
+    <script src="jquery.js"></script>
+    <script>    
+        function call(x) {
+            const Http = new XMLHttpRequest();
+            const url='http://192.168.123.104:3000/?data=' + x;
+            Http.open("GET", url);
+            Http.send();
+
+            Http.onreadystatechange = (e) => {
+            console.log(Http.responseText)
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="content">
+        <div>
+            <button onclick="call(0);">0</button>
+            <button onclick="call(1);">1</button>
+            <button onclick="call(2);">2</button>
+        </div>
+        <div>
+            <button onclick="call(3);">3</button>
+            <button onclick="call(4);">4</button>
+            <button onclick="call(5);">5</button>
+        </div>
+        <div>
+            <button onclick="call(6);">6</button>
+            <button onclick="call(7);">7</button>
+            <button onclick="call(8);">8</button>
+        </div> 
+        <div id="rotate">
+            <button onclick="call(9);">9</button>
+            <button onclick="call(10);">10</button>
+        </div>
+    </div>
+</body>
+</html>
