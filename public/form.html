@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Robot send Code</title>
+	<link rel="stylesheet" type="text/css" href="/public/style.css">
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script defer src="./public/ajax.js"></script>
+	<script>
+		const up = 0, down = 1, left = 2, right = 3, up_right = 4, down_right = 5, down_left = 6, up_left = 7, rotate_cw = 8, rotate_ccw = 9;
+		const stop = 's';
+	</script>
+</head>
+
+<body>
+	<div id="content">
+		<div>
+			<button onclick="call(up_left);">↖</button>
+			<button onclick="call(up);">↑</button>
+			<button onclick="call(up_right);">↗</button>
+		</div>
+		<div>
+			<button onclick="call(left);">←</button>
+			<button onclick="call(stop);">STOP</button>
+			<button onclick="call(right);">→</button>
+		</div>
+		<div>
+			<button onclick="call(down_left);">↙</button>
+			<button onclick="call(down);">↓</button>
+			<button onclick="call(down_right);">↘</button>
+		</div>
+		<div id="rotate">
+			<button onclick="call(rotate_ccw);">⟲</button>
+			<button onclick="call(rotate_cw);">⟳</button>
+			<!-- <button type="submit">submit</button> -->
+		</div>
+	</div>
+</body>
+
+</html>
