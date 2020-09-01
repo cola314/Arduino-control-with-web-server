@@ -6,7 +6,7 @@ function call(data){
 
   // content-type을 설정하고 데이터 송신
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://127.0.0.1:3000/ajax_send_email');
+  xhr.open('POST', document.URL + 'ajax_send_email');
   xhr.setRequestHeader('Content-type', "application/json");
   xhr.send(data);
 }
