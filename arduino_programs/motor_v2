@@ -1,0 +1,87 @@
+#include "inverter.h"
+#define FWD  CCW
+#define REV  CW
+#define NAN  -1
+
+Motor motor1(13, 12, 11);
+Motor motor2(8, 9, 10);
+Motor motor3(7, 6, 5);
+Motor motor4(4, 2, 3);
+Motor* motor[4] = {
+  &motor1, &motor2, &motor3, &motor4
+};
+
+int t = 1;
+
+enum { up, down, left, right, up_right, down_right, down_left, up_left, rotate_cw, rotate_ccw };
+
+int motor_map[10][4] = {
+  {REV, FWD, REV, FWD},
+  {FWD, REV, FWD, REV},
+  {REV, REV, FWD, FWD},
+  {FWD, FWD, REV, REV},
+  {NAN, REV, FWD, NAN},
+  {FWD, NAN, NAN, REV},
+  {NAN, FWD, REV, NAN},
+  {REV, NAN, NAN, FWD},
+  {REV, REV, REV, REV},
+  {FWD, FWD, FWD, FWD}
+};
+
+#define START_SPEED 20
+#define NORMAL_SPEED 5
+#define REV_SPEED 5
+
+#define REV_TIME 1000
+#define START_TIME 1500
+
+
+void motor_drive(int mode) {
+  for(int i=0; i<4; i++) {
+    motor[i]->set_speed(REV_SPEED);
+    if(motor[i]->on_off == ON) {
+      if(motor[i]->cw == REV) motor[i]->drive(ON, FWD);
+      else motor[i]->drive(ON, REV);
+    }
+  }
+  delay(REV_TIME);
+  if(mode == NAN) {
+    for(int i=0; i<4; i++) {
+      motor[i]->drive(OFF);
+    }
+    return;
+  }
+  
+  for(int i=0; i<4; i++) {
+    motor[i]->set_speed(START_SPEED);
+    if(motor_map[mode][i] == NAN) motor[i]->drive(OFF); 
+    else motor[i]->drive(ON, motor_map[mode][i]);   
+  }
+  delay(START_TIME);
+  for(int i=0; i<4; i++) {
+    motor[i]->set_speed(NORMAL_SPEED);  
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.println("hi");
+  motor1.set_speed(NORMAL_SPEED);
+  motor2.set_speed(NORMAL_SPEED);
+  motor3.set_speed(NORMAL_SPEED);
+  motor4.set_speed(NORMAL_SPEED);
+  //while(1);
+}
+
+const char *str[10] = {
+  "up", "down", "left", "right", "up_right", "down_right", "down_left", "up_left", "rotate_cw", "rotate_ccw"
+};
+
+void loop() {
+  char c = Serial.read();
+  if('0' <= c && c <= '9' || c == 's') {
+    if(c == 's') Serial.println("STOP");
+    else Serial.println(str[c-'0']);
+    motor_drive(c == 's' ? NAN : c-'0');
+  }
+}
